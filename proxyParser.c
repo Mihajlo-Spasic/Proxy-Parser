@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
+
 
 #define FILE_SIZE 100
 
@@ -12,26 +14,57 @@ typedef struct{
     char* Country;  
     char* Anonymity;
 
-    char* User;
-    char* Password; 
+    char* User;         //NOT USED
+    char* Password;     //NOT USED
 
 }ProxySettings;
 
-int Number_Of_Lines(FILE* file){
-    int ch = 0, lines = 0;
-    while(!feof(file)){
-        ch = fgetc(file);
-
-        if (ch == "\n");
-            lines++;
+FILE* parseFile(FILE* input, int NoLines){
+    FILE* output = fopen("OutputFile.txt", "a");
+    ProxySettings *Proxydata;
+    
+    char line[512];
+    while(fgets(line, sizeof(line), input)){
+        sscanf( line,"%[0-9.] %[1-9]", Proxydata->IP, Proxydata->Port,Proxydata->Protocol,Proxydata->Country);
+        
+        
+        
+        printf("%s",line);
     }
-
-    return lines;
+    
+    
+    return output;
 };
+
+char **split(char **argv, int *argc, const char *str, const char *delimiter, int allowempty)
+{
+    char *string = malloc(strlen(str + 1));
+    strcpy(string, str);
+    *argc = 0;
+    do
+    {
+        if(*string && (!strchr(delimiter, *string) || allowempty))
+        {
+            argv[(*argc)++] = string;
+        }
+        while(*string && !strchr(delimiter, *string)) string++;
+        if(*string) *string++ = 0;
+        if(!allowempty) 
+            while(*string && strchr(delimiter, *string)) string++;
+    }while(*string);
+
+    for(int arg = 3; arg < *argc - 5 - 1; arg++)
+    {
+        argv[3][strlen(argv[3])] = ' ';
+        memmove(&argv[4], &argv[arg + 2], sizeof(*argv) * (*argc - 4));
+        *argc -= 1;
+    }
+    return argv;
+}
 
 int main(int argc,char* argv[]){
 
-   char* DataFile = NULL;
+    char* DataFile = NULL;
 
     if (argc < 2) {
         printf("Enter file for parsing (relative or absolute): ");
@@ -39,7 +72,7 @@ int main(int argc,char* argv[]){
         DataFile = (char*)malloc(bufsize);
 
         if (DataFile == NULL) {
-            perror("Memory allocation failed");
+            perror("Memory allocation failed"); 
             return EXIT_FAILURE;
         }
 
@@ -52,24 +85,20 @@ int main(int argc,char* argv[]){
     } else {
         DataFile = argv[1];
     }
-
     FILE* fd = fopen(DataFile, "r");
-    printf("%s",DataFile);
     if (fd == NULL) {
         perror("Cannot open the file");
-        printf("here");
         free(DataFile); 
         exit(EXIT_FAILURE);
     } else {
         printf("Opened the file\n");
     }
 
-    int NoLines = Number_Of_Lines(fd);
+  
+    // FILE* OutputFile = parseFile(fd, NoLines);
+    
 
-
-
-
-
+    // fclose(OutputFile);
     fclose(fd);
    
     if (argc < 2){
