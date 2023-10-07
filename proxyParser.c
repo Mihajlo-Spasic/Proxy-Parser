@@ -65,14 +65,14 @@ char **split(char **argv, int *argc, const char *str, const char *delimiter, int
 int main(int argc,char* argv[]){
 
     char* DataFile = NULL;
-
+    int num;
     if (argc < 2) {
         printf("Enter file for parsing (relative or absolute): ");
         size_t bufsize = FILE_SIZE;
         DataFile = (char*)malloc(bufsize);
 
         if (DataFile == NULL) {
-            perror("Memory allocation failed"); 
+            perror("Not enough free memory"); 
             return EXIT_FAILURE;
         }
 
@@ -81,17 +81,19 @@ int main(int argc,char* argv[]){
             free(DataFile);
             return EXIT_FAILURE;
         }
-
+        
+        DataFile[strlen(DataFile)-1] = 0;
+        
     } else {
         DataFile = argv[1];
     }
     FILE* fd = fopen(DataFile, "r");
     if (fd == NULL) {
-        perror("Cannot open the file");
+        perror("Cannot open input file");
         free(DataFile); 
         exit(EXIT_FAILURE);
     } else {
-        printf("Opened the file\n");
+        printf("Opened input file\n");
     }
 
   
