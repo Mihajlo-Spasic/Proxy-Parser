@@ -66,7 +66,7 @@ int main(int argc,char* argv[]){
 
     char* DataFile = NULL;
     int num;
-    if (argc < 2) {
+    if (argc <= 2) {
         printf("Enter file for parsing (relative or absolute): ");
         size_t bufsize = FILE_SIZE;
         DataFile = (char*)malloc(bufsize);
@@ -87,6 +87,16 @@ int main(int argc,char* argv[]){
     } else {
         DataFile = argv[1];
     }
+
+    char* end;
+    int ChangeOutputSequence = strtol(argv[2], &end, 10 );
+    if (ChangeOutputSequence == 1 && argc == 3){
+        printf("Enter custom output sequence:\n"
+        "1.IP\n2.Port\n3.Protocol\n4.Latency'\n"
+        "5.Country\n6.Anonymity\n7.User\n8.Password\n");
+    }
+
+
     FILE* fd = fopen(DataFile, "r");
     if (fd == NULL) {
         perror("Cannot open input file");
