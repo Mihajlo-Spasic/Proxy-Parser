@@ -91,9 +91,16 @@ int main(int argc,char* argv[]){
     char* end;
     int ChangeOutputSequence = strtol(argv[2], &end, 10 );
     if (ChangeOutputSequence == 1 && argc == 3){
-        printf("Enter custom output sequence:\n"
-        "1.IP\n2.Port\n3.Protocol\n4.Latency'\n"
-        "5.Country\n6.Anonymity\n7.User\n8.Password\n");
+        printf("Enter custom output sequence:"
+        "\n1.IP"
+        "\n2.Port"
+        "\n3.Protocol"
+        "\n4.Latency"
+        "\n5.Country"
+        "\n6.Anonymity"
+        "\n7.User"
+        "\n8.Password"
+        "\n");
     }
 
 
